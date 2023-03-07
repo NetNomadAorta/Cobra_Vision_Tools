@@ -16,7 +16,7 @@ import json
 
 
 # User parameters
-SAVE_NAME_OD = "./Models/Lord_of_Models-0.model"
+SAVE_NAME_OD = "./Models/Construction.model"
 DATASET_PATH = "./Training_Data/" + SAVE_NAME_OD.split("./Models/",1)[1].split(".model",1)[0] +"/"
 MIN_IMAGE_SIZE          = 800 # Minimum size of image (ASPECT RATIO IS KEPT SO DONT WORRY). So for 1600x2400 -> 800x1200
 TO_PREDICT_PATH         = "./Images/Prediction_Images/To_Predict/"

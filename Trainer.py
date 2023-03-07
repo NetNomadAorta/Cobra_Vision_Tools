@@ -20,10 +20,10 @@ from albumentations.pytorch import ToTensorV2
 
 
 # User parameters
-SAVE_NAME      = "./Models/ASL_Letters.model"
+SAVE_NAME      = "./Models/Construction.model"
 USE_CHECKPOINT = True
-MOBILE_NET_TOGGLE = True
-IMAGE_SIZE     = 300
+MOBILE_NET_TOGGLE = False
+IMAGE_SIZE     = 800
 DATASET_PATH   = "./Training_Data/" + SAVE_NAME.split("./Models/",1)[1].split(".model",1)[0] +"/"
 NUMBER_EPOCH   = 10000
 BATCH_SIZE     = 4 # Default: Work_PC: 1
@@ -74,8 +74,6 @@ def get_transforms(train=False):
         ], bbox_params = A.BboxParams(format = 'coco') )
     else:
         transform = A.Compose([
-            # A.Resize(IMAGE_SIZE, IMAGE_SIZE), # our input size can be 600px
-            # A.Rotate(limit=[90,90], always_apply=True),
             ToTensorV2()
         ], bbox_params = A.BboxParams(format = 'coco') )
     return transform
