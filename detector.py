@@ -42,7 +42,7 @@ def makeDir(dir, classes_1):
 
 
 def detect():
-    source, weights, imgsz, conf_thres = opt.source, opt.weights, opt.img_size, opt.conf_thres
+    source, weights, imgsz, conf_thres = opt.source, opt.weights[0], opt.img_size, opt.conf_thres
     print(source, "-", weights, "-", imgsz, "-", conf_thres)
     dataset_path = "./Training_Data/" + weights.split("./Models/", 1)[1].split(".model", 1)[0] + "/"
 
