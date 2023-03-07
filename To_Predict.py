@@ -24,8 +24,6 @@ PREDICTED_PATH          = "./Images/Prediction_Images/Predicted_Images/"
 SAVE_ANNOTATED_IMAGES   = True
 SAVE_ORIGINAL_IMAGE     = False
 SAVE_CROPPED_IMAGES     = False
-SAVE_LARGENED_CROPPED_IMAGES = False
-BLACKENNED_NON_OBJ_IMG  = False
 MIN_SCORE               = 0.6 # Default 0.6
 
 
@@ -114,7 +112,7 @@ for image_name in os.listdir(TO_PREDICT_PATH):
     transformed_image = transformed_image["image"]
     
     if ii == 0:
-        line_width = max(round(transformed_image.shape[1] * 0.002), 1)
+        line_width = max(round(transformed_image.shape[1] * 0.004), 1)
     
     with torch.no_grad():
         prediction_1 = model_1([(transformed_image/255).to(device)])
@@ -130,7 +128,7 @@ for image_name in os.listdir(TO_PREDICT_PATH):
         
         predicted_image = draw_bounding_boxes(transformed_image,
             boxes = coordinates,
-            # labels = [classes_1[i] for i in class_indexes], 
+            # labels = [classes_1[i] for i in class_indexes],
             # labels = [str(round(i,2)) for i in scores], # SHOWS SCORE IN LABEL
             width = line_width,
             colors = [color_list[i] for i in class_indexes],
@@ -149,75 +147,6 @@ for image_name in os.listdir(TO_PREDICT_PATH):
         
         cv2.imwrite(PREDICTED_PATH + image_name, orig_image)
     
-    # Saves image of cropped widened-boxed objects 
-    #  - Uncomment and add interested only classes/labels
-    if (SAVE_LARGENED_CROPPED_IMAGES and len(class_indexes) != 0):
-        
-        box_height_all = int(max(coordinates[:, 3])) - int(min(coordinates[:, 1]))
-        box_width_all = int(max(coordinates[:, 2])) - int(min(coordinates[:, 0]))
-        
-        # Calculates what values to widen box to crop
-        y_to_add = int( -101*(box_height_all/transformed_image.shape[1])+101 )
-        x_to_add = int( -101*(box_width_all/transformed_image.shape[2])+101 )
-        
-        y_min = max(int(min(coordinates[:, 1]))-y_to_add, 
-                    0
-                    )
-        y_max = min(int(max(coordinates[:, 3]))+y_to_add, 
-                    transformed_image.shape[1]
-                    )
-        x_min = max(int(min(coordinates[:, 0]))-x_to_add, 
-                    0
-                    )
-        x_max = min(int(max(coordinates[:, 2]))+x_to_add, 
-                    transformed_image.shape[2]
-                    )
-        
-        save_image(transformed_image[:, 
-                                     y_min:y_max, 
-                                     x_min:x_max
-                                     ]/255, 
-                    PREDICTED_PATH + image_name.replace(".jpg","") + "-Largen_Crop.jpg")
-        
-    
-    # Saves image of Original image that is blackened where no object is at
-    #  - Uncomment and add interested only classes/labels
-    if (BLACKENNED_NON_OBJ_IMG and len(class_indexes) != 0):
-        
-        if len(coordinates) > 0:
-        
-            box_height_all = int(max(coordinates[:, 3])) - int(min(coordinates[:, 1]))
-            box_width_all = int(max(coordinates[:, 2])) - int(min(coordinates[:, 0]))
-            
-            # Calculates what values to widen box to crop
-            y_to_add = int( -101*(box_height_all/transformed_image.shape[1])+101 )
-            x_to_add = int( -101*(box_width_all/transformed_image.shape[2])+101 )
-            # y_to_add = 0
-            # x_to_add = 0
-            
-            y_min = max(int(min(coordinates[:, 1]))-y_to_add, 
-                        0
-                        )
-            y_max = min(int(max(coordinates[:, 3]))+y_to_add, 
-                        transformed_image.shape[1]
-                        )
-            x_min = max(int(min(coordinates[:, 0]))-x_to_add, 
-                        0
-                        )
-            x_max = min(int(max(coordinates[:, 2]))+x_to_add, 
-                        transformed_image.shape[2]
-                        )
-            
-            blackened_image = transformed_image.detach().clone()
-            blackened_image[:, :y_min, :] = 0
-            blackened_image[:, :, :x_min] = 0
-            blackened_image[:, y_max:-1, :-1] = 0
-            blackened_image[:, :-1, x_max:-1] = 0
-            
-            
-            save_image(blackened_image/255, 
-                        PREDICTED_PATH + image_name.replace(".jpg","") + "-Blackenned.jpg")
-    
     
     if SAVE_CROPPED_IMAGES:
         
@@ -232,7 +161,7 @@ for image_name in os.listdir(TO_PREDICT_PATH):
                         PREDICTED_PATH + image_name.replace(".jpg","") + "-{}-Cropped.jpg".format(box_index))
     
     
-    ten_scale = int(len(os.listdir(TO_PREDICT_PATH))*0.01)
+    ten_scale = round(len(os.listdir(TO_PREDICT_PATH))*0.02)
     
     ii += 1
     if ii % ten_scale == 0:
