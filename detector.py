@@ -124,7 +124,7 @@ def detect():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='"./Models/Construction.model"', help='model.model path(s)')
+    parser.add_argument('--weights', nargs='+', type=str, default='./Models/Construction.model', help='model.model path(s)')
     parser.add_argument('--source', type=str, default='robotest.jpg', help='source')  # file/folder, 0 for webcam
     parser.add_argument('--img-size', type=int, default=800, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.60, help='object confidence threshold')
