@@ -34,7 +34,7 @@ BLUR_PROB           = 0.05  # Default: 0.05
 DOWNSCALE_PROB      = 0.25  # Default: 0.10 
 NOISE_PROB          = 0.05  # Default: 0.05 
 MOTION_BLUR_PROB    = 0.05  # Default: 0.05
-ROTATION            = 5     # Default: 5
+ROTATION            = 15     # Default: 5
 BRIGHTNESS_CHANGE   = 0.10  # Default: 0.10
 CONTRAST_CHANGE     = 0.05  # Default: 0.05
 SATURATION_CHANGE   = 0.05  # Default: 0.05
@@ -58,7 +58,7 @@ def get_transforms(train=False):
             # A.Resize(IMAGE_SIZE, IMAGE_SIZE), # I don't include anymore because OD models doesn't discriminate against size
             # A.Rotate(limit=[90,90], always_apply=True),
             A.GaussianBlur(blur_limit = (3,5), p = BLUR_PROB),
-            A.Downscale(scale_min = 0.35, scale_max = 0.99, p = DOWNSCALE_PROB),
+            A.Downscale(scale_min = 0.40, scale_max = 0.99, p = DOWNSCALE_PROB),
             A.GaussNoise(var_limit = (1.0, 10.0), p = NOISE_PROB),
             A.MotionBlur(5, p = MOTION_BLUR_PROB),
             A.ColorJitter(brightness = BRIGHTNESS_CHANGE, 
