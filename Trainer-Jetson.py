@@ -20,7 +20,7 @@ from albumentations.pytorch import ToTensorV2
 
 
 # User parameters
-SAVE_NAME      = "./Models/Construction.model"
+SAVE_NAME      = "./Models/Security.model"
 USE_CHECKPOINT = True
 MOBILE_NET_TOGGLE = False
 IMAGE_SIZE     = 1000
@@ -36,9 +36,9 @@ NOISE_PROB          = 0.05  # Default: 0.05
 MOTION_BLUR_PROB    = 0.05  # Default: 0.05
 ROTATION            = 15     # Default: 5
 BRIGHTNESS_CHANGE   = 0.10  # Default: 0.10
-CONTRAST_CHANGE     = 0.01  # Default: 0.05
-SATURATION_CHANGE   = 0.01  # Default: 0.05
-HUE_CHANGE          = 0.01  # Default: 0.05
+CONTRAST_CHANGE     = 0.05  # Default: 0.05
+SATURATION_CHANGE   = 0.05  # Default: 0.05
+HUE_CHANGE          = 0.05  # Default: 0.05
 HORIZ_FLIP_CHANCE   = 0.20  # Default: 0.10
 VERT_FLIP_CHANCE    = 0.20  # Default: 0.10
 
